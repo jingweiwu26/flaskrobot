@@ -23,11 +23,10 @@ def wechat_api():
         timestamp = data.get('timestamp', '')
         nonce = data.get('nonce', '')
         echostr = data.get('echostr', '')
-        s = sorted([timestamp, nonce, token])
+        s = sorted([token, timestamp, nonce])
         s = ''.join(s)
-        if hashlib.sha1(s.encode('utf-8')).hexdigest() == signature:
-            response = make_response(echostr)
-            return response
+        if hashlib.sha1(s).hexdigest() == signature:
+            return echostr
 
 
 def get_max_drawdown():
