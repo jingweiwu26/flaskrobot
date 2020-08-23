@@ -25,7 +25,7 @@ def wechat_api():
         echostr = data.get('echostr', '')
         s = sorted([token, timestamp, nonce])
         s = ''.join(s)
-        if hashlib.sha1(s).hexdigest() == signature:
+        if hashlib.sha1(s.encode('utf-8')).hexdigest() == signature:
             return echostr
 
 
