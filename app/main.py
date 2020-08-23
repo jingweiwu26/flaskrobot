@@ -2,6 +2,7 @@ from flask import Flask, make_response, request
 import hashlib
 import pandas as pd
 import tushare as ts
+import xml.etree.ElementTree as ET
 
 pro = ts.pro_api('8a23aa12fefee5feeddd696e1d41cdfd8cdf3f257ab79b9a6c2a1bf4')
 
@@ -27,7 +28,28 @@ def wechat_api():
         s = ''.join(s)
         if hashlib.sha1(s.encode('utf-8')).hexdigest() == signature:
             return echostr
-        return 'not hello'
+    else:
+        xml = ET.fromstring(request.data)
+        toUser = xml.find('ToUserName').text
+        fromUser = xml.find('FromUserName').text
+        msgType = xml.find("MsgType").text
+        return reply_text(fromUser, toUser, "宝宝七夕节快乐")
+
+
+
+def reply_text(to_user, from_user, content):
+    reply = """
+    <xml><ToUserName><![CDATA[%s]]></ToUserName>
+    <FromUserName><![CDATA[%s]]></FromUserName>
+    <CreateTime>%s</CreateTime>
+    <MsgType><![CDATA[text]]></MsgType>
+    <Content><![CDATA[%s]]></Content>
+    <FuncFlag>0</FuncFlag></xml>
+    """
+    response = make_response(reply % (to_user, from_user,
+                                      str(int(time.time())), content))
+    response.content_type = 'application/xml'
+    return response
 
 
 def get_max_drawdown():
