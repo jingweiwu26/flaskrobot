@@ -2,6 +2,7 @@ from flask import Flask, make_response, request
 import hashlib
 import pandas as pd
 import tushare as ts
+import time
 import xml.etree.ElementTree as ET
 
 pro = ts.pro_api('8a23aa12fefee5feeddd696e1d41cdfd8cdf3f257ab79b9a6c2a1bf4')
