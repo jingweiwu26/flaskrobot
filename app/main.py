@@ -9,9 +9,19 @@ app = Flask(__name__)
 
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    return "Hello World!"
+    if request.method == 'GET':
+        token = 'Empire22'
+        data = request.args
+        signature = data.get('signature', '')
+        timestamp = data.get('timestamp', '')
+        nonce = data.get('nonce', '')
+        echostr = data.get('echostr', '')
+        s = sorted([token, timestamp, nonce])
+        s = ''.join(s)
+        if hashlib.sha1(s.encode('utf-8')).hexdigest() == signature:
+            return echostr
 
 
 @app.route('/wechat_api/', methods=['GET', 'POST'])
