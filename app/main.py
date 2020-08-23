@@ -1,4 +1,4 @@
-from flask import Flask, make_response
+from flask import Flask, make_response, request
 import hashlib
 import pandas as pd
 import tushare as ts
@@ -9,19 +9,9 @@ app = Flask(__name__)
 
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
 def index():
-    if request.method == 'GET':
-        token = 'Empire22'
-        data = request.args
-        signature = data.get('signature', '')
-        timestamp = data.get('timestamp', '')
-        nonce = data.get('nonce', '')
-        echostr = data.get('echostr', '')
-        s = sorted([token, timestamp, nonce])
-        s = ''.join(s)
-        if hashlib.sha1(s.encode('utf-8')).hexdigest() == signature:
-            return echostr
+    return "hello world"
 
 
 @app.route('/wechat_api/', methods=['GET', 'POST'])
@@ -37,6 +27,7 @@ def wechat_api():
         s = ''.join(s)
         if hashlib.sha1(s.encode('utf-8')).hexdigest() == signature:
             return echostr
+        return 'not hello'
 
 
 def get_max_drawdown():
@@ -49,4 +40,4 @@ def get_benchmark():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=5050)
