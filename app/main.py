@@ -34,14 +34,13 @@ def wechat_api():
         toUser = xml.find('ToUserName').text
         fromUser = xml.find('FromUserName').text
         msgType = xml.find("MsgType").text
-
+        content = xml.find('Content').text
         if msgType == 'text':
             content = xml.find('Content').text
-            return reply_text(
-                fromUser, toUser, get_response(
-                    fromUser, content))
-        else:
-            return reply_text(fromUser, toUser, "宝宝七夕节快乐")
+            if content != '宝宝':
+                return reply_text(fromUser, toUser, "你是谁")
+            else:
+                return reply_text(fromUser, toUser, "宝宝七夕节快乐")
 
 
 
