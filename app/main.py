@@ -29,6 +29,11 @@ def wechat_api():
         if hashlib.sha1(s.encode('utf-8')).hexdigest() == signature:
             return echostr
     else:
+        xml = ET.fromstring(request.data)
+        toUser = xml.find('ToUserName').text
+        fromUser = xml.find('FromUserName').text
+        msgType = xml.find("MsgType").text
+
         if msgType == 'text':
             content = xml.find('Content').text
             return reply_text(
