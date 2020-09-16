@@ -45,7 +45,7 @@ def wechat_api():
             try:
                 df = find_fund(content)
                 df = basic_filter_fund(df)
-                df = quant_filter_fund(df)
+                #df = quant_filter_fund(df)
                 return reply_text(fromUser, to_user, df['reject'].iloc[0])
             except:
                 return reply_text(fromUser, to_user, '无法查询，出bug了')
