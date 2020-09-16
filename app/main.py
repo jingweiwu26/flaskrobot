@@ -42,12 +42,13 @@ def wechat_api():
             #    return reply_text(fromUser, toUser, "你是谁")
             #else:
             #    return reply_text(fromUser, toUser, "宝宝七夕节快乐")
-          
-            #df = find_fund(content)
-            #df = basic_filter_fund(df)
-            #df = quant_filter_fund(df)
-            #return reply_text(fromUser, to_user, df['reject'].iloc[0]
-            return reply_text(fromUser, to_user, content)
+            try:
+                df = find_fund(content)
+                df = basic_filter_fund(df)
+                df = quant_filter_fund(df)
+                return reply_text(fromUser, toUser, df['reject'].iloc[0])
+            except:
+                return reply_text(fromUser, toUser, '无法查询，出bug了')
 
 
 def reply_text(to_user, from_user, content):
